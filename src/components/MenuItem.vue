@@ -11,7 +11,7 @@ import { Vue, Prop, Component } from "vue-property-decorator";
 import { MenuItem } from "@/types";
 
 @Component({})
-export default class App extends Vue {
+export default class MenuItemLink extends Vue {
   @Prop({
     type: Object,
     required: true,
@@ -29,10 +29,6 @@ export default class App extends Vue {
       "menu-item": true,
       "menu-item--active": this.isActive,
     };
-  }
-
-  created() {
-    console.log(this.isActive);
   }
 }
 </script>

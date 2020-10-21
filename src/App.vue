@@ -1,20 +1,26 @@
 <template>
   <div id="app">
-      <MenuItem :item="{link: '/', text: 'test1'}" is-active />
+    <Menu :list="menuList" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import MenuItem from "@/components/MenuItem.vue";
+import Menu from "@/components/Menu.vue";
+
+import menuData from "@/data/menu.json";
+
+import { MenuItem } from "@/types";
 
 @Component({
   components: {
-    MenuItem,
+    Menu,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  menuList: Array<MenuItem> = menuData;
+}
 </script>
 
 <style lang="scss">
@@ -24,6 +30,6 @@ export default class App extends Vue {}
   min-height: 100vh;
   width: 100%;
 
-  background: url($assets + '/images/main-bg.jpg') center/cover;
+  background: url($assets+"/images/main-bg.jpg") center/cover;
 }
 </style>
