@@ -1,0 +1,24 @@
+/**
+ * Reset default styles with this classes
+ */
+.reset {
+  &--list-style {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+}
+
+/**
+ * Hide element but make it accesible
+ */
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}

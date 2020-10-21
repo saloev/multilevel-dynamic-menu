@@ -1,0 +1,36 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+
+  
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;  /* Firefox */
+}
+
+body {
+  margin: 0;
+  max-height: 100vh;
+  overflow: hidden;
+
+  font-family: $font-family-base;
+  font-size: $font-size-default;
+  color: $black;
+}
+
+input,
+button {
+  font-family: inherit;
+}
+
+button {
+  &:hover {
+    cursor: pointer;
+  }
+}
