@@ -25,7 +25,16 @@ export default class App extends Vue {
 
 <style lang="scss">
 #app {
-  padding: 1vw;
+  --padding: 10vw;
+
+  @include media('sm-and-up') {
+    --padding: 5vw;
+  }
+
+  @include media('lg-and-up') {
+    --padding: 2vw;
+  }
+  padding: var(--padding);
 
   height: 100vh;
   overflow: scroll;

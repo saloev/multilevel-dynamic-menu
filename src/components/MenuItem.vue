@@ -35,15 +35,26 @@ export default class MenuItemLink extends Vue {
 <style lang="scss">
 
 .menu-item {
+  --space: 0.2vw;
+  --font-size: 10vw;
+
+  @include media('sm-and-up') {
+    --font-size: 5vw;
+  }
+
+  @include media('lg-and-up') {
+    --font-size: 2vw;
+  }
+
   min-width: max-content;
   display: block;
-  padding: 0.2vw;
-  border: 0.2vw solid $info;
-  outline-width: 0.2vw;
+  padding: var(--space);
+  border: var(--space) solid $info;
+  outline-width: var(--space);
   outline-color: transparent;
   outline-style: dashed;
 
-  font-size: 2vw;
+  font-size: var(--font-size);
   line-height: 1.2;
   color: $white;
   text-decoration: none;
@@ -78,7 +89,7 @@ export default class MenuItemLink extends Vue {
     align-items: center;
     width: 100%;
     height: 100%;
-    padding: 0.3vw;
+    padding: calc(var(--space) + 1vw);
 
     &::before {
       content: '';
