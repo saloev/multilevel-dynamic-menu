@@ -1,0 +1,105 @@
+<template>
+  <a :class="classes" :href="item.link">
+    <span class="menu-item__text">
+      <span class="menu-item__inner-text">{{ item.text }}</span>
+    </span>
+  </a>
+</template>
+<script lang="ts">
+import { Vue, Prop, Component } from "vue-property-decorator";
+
+import { MenuItem } from "@/types";
+
+@Component({})
+export default class App extends Vue {
+  @Prop({
+    type: Object,
+    required: true,
+  })
+  item!: MenuItem;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isActive!: boolean;
+
+  get classes() {
+    return {
+      "menu-item": true,
+      "menu-item--active": this.isActive,
+    };
+  }
+
+  created() {
+    console.log(this.isActive);
+  }
+}
+</script>
+<style lang="scss">
+.menu-item {
+  display: block;
+  padding: 0.2vw;
+  border: 0.2vw solid $info;
+  outline-width: 0.2vw;
+  outline-color: transparent;
+
+  font-size: 2vw;
+  line-height: 1.2;
+  color: $white;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  transition: border-color 0.2s linear, color 0.2s linear, outline-color 0.2s linear;
+
+  &--active {
+    background: transparentize($black, 0.7);
+    color: $primary;
+  }
+
+  &:hover,
+  &:focus {
+    border-color: $white;
+    color: $black;
+
+    .menu-item__text::before {
+      opacity: 1;
+    }
+  }
+
+  &:focus {
+    outline-color: $primary;
+  }
+
+  &__text {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0.3vw;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: linear-gradient(90deg, $secondary, $primary 5%);
+      opacity: 0;
+
+      @include transition();
+    }
+  }
+
+  &__inner-text {
+    position: relative;
+    z-index: 2;
+  }
+}
+</style>
