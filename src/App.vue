@@ -27,7 +27,8 @@ export default class App extends Vue {
 #app {
   padding: 1vw;
 
-  min-height: 100vh;
+  height: 100vh;
+  overflow: scroll;
   width: 100%;
 
   background: url($assets+"/images/main-bg.jpg") center/cover;

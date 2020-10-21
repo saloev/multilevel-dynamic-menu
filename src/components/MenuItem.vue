@@ -33,12 +33,15 @@ export default class MenuItemLink extends Vue {
 }
 </script>
 <style lang="scss">
+
 .menu-item {
+  min-width: max-content;
   display: block;
   padding: 0.2vw;
   border: 0.2vw solid $info;
   outline-width: 0.2vw;
   outline-color: transparent;
+  outline-style: dashed;
 
   font-size: 2vw;
   line-height: 1.2;

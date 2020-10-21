@@ -16,6 +16,9 @@ html {
 
 body {
   margin: 0;
+  max-height: 100vh;
+  max-width: 100vw;
+  overflow: hidden;
 
   font-family: $font-family-base;
   font-size: $font-size-default;
