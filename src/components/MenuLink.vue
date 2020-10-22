@@ -1,5 +1,5 @@
 <template>
-  <a :class="classes" :href="item.link">
+  <a :class="classes" :href="item.link" @click="onClick(item)">
     <span class="menu-item__text">
       <span class="menu-item__inner-text">{{ item.text }}</span>
     </span>
@@ -29,6 +29,11 @@ export default class MenuItemLink extends Vue {
       "menu-item": true,
       "menu-item--active": this.isActive,
     };
+  }
+
+  onClick(item: MenuItem) {
+    console.log("LINK ACTION", item.action);
+    if (item.action) this.$emit(item.action, item);
   }
 }
 </script>

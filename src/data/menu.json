@@ -6,6 +6,7 @@
       {
         "link": "/",
         "text": "Menu",
+        "action": "action",
         "subMenu": [
           {
             "link": "/",
@@ -50,6 +51,7 @@
   {
     "link": "/",
     "text": "Menu",
+    "action": "action",
     "subMenu": [
       {
         "link": "/",
@@ -91,7 +93,7 @@
           { "link": "/", "text": "Menu" }
         ]
       },
-      { "link": "/", "text": "Menu" }
+      { "link": "/", "text": "Menu", "action": "action" }
     ]
   }
 ]

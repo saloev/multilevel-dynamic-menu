@@ -1,5 +1,6 @@
 export interface MenuItem {
   link: string;
   text: string;
-  subMenu: Array<MenuItem>;
+  subMenu?: Array<MenuItem>;
+  action?: string;
 }
