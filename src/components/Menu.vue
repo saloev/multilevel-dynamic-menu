@@ -65,7 +65,7 @@ export default class Menu extends Vue {
     const copy = [...this.list];
     const iter = (items: Array<MenuItemType>): Array<MenuItemType> => {
       return items.map((item: MenuItemType) => {
-        item.show = true;
+        item.show = false;
         if (item.subMenu) item.subMenu = iter(item.subMenu);
         return item;
       });
