@@ -3,7 +3,7 @@
 import { VNode, CreateElement } from "vue";
 import { Vue, Prop, Component } from "vue-property-decorator";
 
-import MenuLinkItem from "./MenuItem.vue";
+import MenuLinkItem from "./MenuLink.vue";
 import { MenuItem } from "@/types";
 
 const renderMenu = (h: CreateElement, list: Array<MenuItem>, level: string): VNode => {
@@ -86,12 +86,12 @@ export default class Menu extends Vue {
 .menu-list {
   --col-space: 1vw;
   --row-space: 0.2vw;
+  position: relative;
 
   display: grid;
   grid-gap: var(--row-space);
 
   &__item {
-    position: relative;
     z-index: 10;
 
     .menu-list {
@@ -104,27 +104,28 @@ export default class Menu extends Vue {
       @include hide();
 
       transition: all 0.3s linear;
+    }
 
       /**
         * before element need to fill empty space when mouse move
-      */
+        */
       &::before {
         content: none;
         position: absolute;
         right: 0;
         top: 0;
+        z-index: 2;
 
         height: 100%;
-        width: 100%;
-        transform: translateX(calc(-1 * var(--col-space)));
+        width: calc(100%);
+        transform: translateX(100%);
       }
-    }
 
     &:hover > .menu-list {
       @include show();
     }
 
-    &:hover > .menu-list::before {
+    &:hover::before {
       content: "";
 
       @include show();
@@ -136,6 +137,8 @@ export default class Menu extends Vue {
   }
 
   &__link {
+    position: relative;
+    z-index: 5;
   }
 }
 </style>
