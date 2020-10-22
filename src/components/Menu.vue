@@ -6,7 +6,11 @@ import { Vue, Prop, Component } from "vue-property-decorator";
 import MenuLinkItem from "./MenuLink.vue";
 import { MenuItem } from "@/types";
 
-const renderMenu = (h: CreateElement, list: Array<MenuItem>, level: string): VNode => {
+interface MenuItemType extends MenuItem {
+  show?: boolean;
+}
+
+const renderMenu = (h: CreateElement, list: Array<MenuItemType>, level: string): VNode => {
   return h(
     "ul",
     {
@@ -16,12 +20,13 @@ const renderMenu = (h: CreateElement, list: Array<MenuItem>, level: string): VNo
         "reset--list-style": true
       }
     },
-    list.map((item: MenuItem, index: number) =>
+    list.map((item: MenuItemType, index: number) =>
       h(
         "li",
         {
           class: {
-            "menu-list__item": true
+            "menu-list__item": true,
+            show: item.show
           }
         },
         [
@@ -50,6 +55,40 @@ const renderMenu = (h: CreateElement, list: Array<MenuItem>, level: string): VNo
 @Component({})
 export default class Menu extends Vue {
   @Prop({ type: Array, required: true }) list!: Array<MenuItem>;
+  normalizedList: Array<MenuItemType> = [];
+
+  mounted() {
+    this.addShowPropToList();
+  }
+
+  addShowPropToList() {
+    const copy = [...this.list];
+    const iter = (items: Array<MenuItemType>): Array<MenuItemType> => {
+      return items.map((item: MenuItemType) => {
+        item.show = true;
+        if (item.subMenu) item.subMenu = iter(item.subMenu);
+        return item;
+      });
+    };
+    this.normalizedList = iter(copy);
+  }
+
+  onSpaceClick(): VoidFunction | undefined {
+    const elem: Element | null = document.activeElement;
+    const isMenuLink = elem && elem.classList.contains("menu-list__link");
+    if (!isMenuLink) return;
+
+    const li: Element | null = document.parentElement;
+    if (!li) return;
+  }
+
+  onBackspaceClikc(): VoidFunction | undefined {
+    return;
+  }
+
+  onEnterClick(): VoidFunction | undefined {
+    return;
+  }
 
   public render(h: CreateElement): VNode {
     return h(
@@ -57,6 +96,19 @@ export default class Menu extends Vue {
       {
         class: {
           menu: true
+        },
+        on: {
+          keyup: ({ code }: KeyboardEvent) => {
+            const dispathByCode: {
+              [key: string]: VoidFunction | undefined;
+            } = {
+              Space: this.onSpaceClick(),
+              Backspace: this.onBackspaceClikc(),
+              Enter: this.onEnterClick()
+            };
+
+            dispathByCode[code];
+          }
         }
       },
       [renderMenu(h, this.list, "")]
@@ -106,34 +158,32 @@ export default class Menu extends Vue {
       transition: all 0.3s linear;
     }
 
-      /**
-        * before element need to fill empty space when mouse move
-        */
-      &::before {
-        content: none;
-        position: absolute;
-        right: 0;
-        top: 0;
-        z-index: 2;
+    /**
+    * before element need to fill empty space when mouse move
+    */
+    &::before {
+      content: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 2;
 
-        height: 100%;
-        width: calc(100%);
-        transform: translateX(100%);
-      }
+      height: 100%;
+      width: calc(100%);
+      transform: translateX(100%);
+    }
 
-    &:hover > .menu-list {
+    &:hover > .menu-list,
+    &.show > .menu-list {
       @include show();
     }
 
-    &:hover::before {
+    &:hover::before,
+    &.show::before {
       content: "";
 
       @include show();
     }
-  }
-
-  &.show {
-    @include show();
   }
 
   &__link {

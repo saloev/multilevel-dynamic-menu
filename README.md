@@ -13,6 +13,15 @@ Dynamic multilevel menu for any depth with Vue render function - [demo](https://
  - SCSS
  - Eslint
 
+## Features
+  - Full keyboard support 
+    - Move => Tab
+    - Open => Space
+    - Close last opened menu => Backspace
+    - Close all menu => Enter
+  - Adaptive (4k,8k, ..., N*K)
+  - Cool :)
+
 ## Project setup
 ```
 npm install
