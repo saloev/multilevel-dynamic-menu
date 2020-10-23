@@ -11,6 +11,12 @@ interface MenuItemType extends MenuItem {
   level?: string;
 }
 
+function getLastValue(set: Set<string>): string | undefined {
+  let value;
+  for (value of set);
+  return value;
+}
+
 const renderMenu = (h: CreateElement, list: Array<MenuItemType>): VNode => {
   return h(
     "ul",
@@ -56,7 +62,7 @@ const renderMenu = (h: CreateElement, list: Array<MenuItemType>): VNode => {
 export default class Menu extends Vue {
   @Prop({ type: Array, required: true }) list!: Array<MenuItem>;
   //https://github.com/vuejs/vue/issues/2410#issuecomment-318487855 :(
-  setChangeTracker: number =  1; // :(
+  setChangeTracker: number = 1; // :(
   currentClicedLinksId: Set<string> = new Set();
 
   mounted() {}
@@ -74,20 +80,22 @@ export default class Menu extends Vue {
         return item;
       });
     };
-    
-    if (this.setChangeTracker)
-      return  iter(copy, "");
-    
+
+    if (this.setChangeTracker) return iter(copy, "");
+
     return copy;
   }
 
   onSpaceClick(id: string) {
     const isSubTree = () => {
-      const discardLastItem = id.split('.').slice(0, -1).join('.');
-      const subIds = discardLastItem === '.' ? id : discardLastItem;
+      const discardLastItem = id
+        .split(".")
+        .slice(0, -1)
+        .join(".");
+      const subIds = discardLastItem === "." ? id : discardLastItem;
 
       return this.currentClicedLinksId.has(subIds);
-    }
+    };
 
     if (!isSubTree()) this.onBackquoteClick();
 
@@ -96,22 +104,28 @@ export default class Menu extends Vue {
   }
 
   onBackspaceClikc() {
-    function getLastValue(set: Set<string>): string | undefined {
-      let value;
-      for (value of set);
-      return value;
-    }
-
     const lastVal = getLastValue(this.currentClicedLinksId);
     if (lastVal) {
       this.setChangeTracker -= 1;
       this.currentClicedLinksId.delete(lastVal);
+
+      // focus to last elem
+      this.focusToElement();
     }
   }
 
   onBackquoteClick() {
     this.currentClicedLinksId = new Set();
     this.setChangeTracker = 1;
+    this.focusToElement('1');
+  }
+
+  focusToElement(val: string | null = null) {
+    const lastVal = val ? val : getLastValue(this.currentClicedLinksId);
+    if (lastVal) {
+      const link: HTMLElement | null = document.querySelector(`a[data-id="${lastVal}"]`);
+      if (link) link.focus();
+    }
   }
 
   public render(h: CreateElement): VNode {
@@ -136,7 +150,10 @@ export default class Menu extends Vue {
               Backquote: () => this.onBackquoteClick()
             };
 
-            if (typeof  dispathByCode[code] !== 'undefined') dispathByCode[code]();
+            if (typeof dispathByCode[code] !== "undefined") dispathByCode[code]();
+          },
+          mouseover: (e: MouseEvent) => {
+            this.onBackquoteClick();
           }
         }
       },
